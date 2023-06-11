@@ -1,0 +1,43 @@
+{% extends 'Med/main.html' %}
+
+{% block SHead %}
+  MedC StaffSite<span class="icon-emo-happy"></span>
+{% endblock %}
+
+{% block Head2 %}
+  <a href="{% url 'profile' %}">Profile Update</a>
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <div>
+            <a class="btn btn-secondary btn-sm mt-3 mb-3" href="{% url 'doc-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-3 mb-3" href="{% url 'doc-delete' object.id %}">Delete</a>
+          </div>
+        </div>
+        <h2 class="article-title">Doctor Name: {{ object.name }}</h2>
+        <p class="article-content">Doctor Specialization Type: {{ object.specialization }}</p>
+      </div>
+    </article>
+    <div class="card mt-4">
+      <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+        <h5 class="card-title">Appointments</h5>
+        <ul class="list-group list-group-flush">
+          {% for appointment in appointments %}
+            <li class="list-group-item">
+              <strong>Date:</strong> {{ appointment.appointment_date }}<br>
+              <strong>Time:</strong> {{ appointment.appointment_time }}<br>
+              <strong>Description:</strong> {{ appointment.description }}<br>
+              <strong>Patient:</strong> {{ appointment.patient }}<br>
+            </li>
+          {% empty %}
+            <li class="list-group-item">No appointments found.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'Med/main.html' %}
+{% load custom_filters %}
+{% block PHead %}
+  MedC PatientSite<span class="icon-emo-happy"></span>
+{% endblock %}
+
+{% block Head2 %}
+  <a href="{% url 'profile' %}">Profile Update</a>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Welcome, {{ user.username }}</h1>
+    <h2>Profile</h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Personal Information</h3>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Name:</strong> {{ user.profile.name }}</li>
+              <li class="list-group-item"><strong>Gender:</strong> {{ user.profile.get_gender_display }}</li>
+              <li class="list-group-item"><strong>History of Illness:</strong> {{ user.profile.history_of_illness }}</li>
+              <li class="list-group-item"><strong>Prescriptions:</strong>
+                <ul>
+                  {% for prescription in user.profile.prescriptions.all %}
+                    <li>{{ prescription }}</li>
+                  {% empty %}
+                    <li>No prescriptions found.</li>
+                  {% endfor %}
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Appointments
+              <a href="{% url 'apply' %}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Apply+
+              </a>
+            </h3>
+          </div>
+          <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+            <ul class="list-group list-group-flush">
+              {% for appointment in user.appointment_set.all %}
+                <li class="list-group-item"><a href="{% url 'updateAppnt' appointment.id %}">
+                  <strong>Appointment No-</strong> {{ appointment.id }}<br></a>
+                  <strong>Status:</strong> {{ appointment.get_status_display}}<br>
+                  <strong>Date:</strong> {{ appointment.appointment_date }}<br>
+                  <strong>Time:</strong> {{ appointment.get_appointment_time_wanted_display }}<br>
+                  <strong>Description:</strong> {{ appointment.description }}<br>
+                  <strong>Doctor Appointed:</strong> {{ appointment.Doctors_for_appnt.name }}<br>
+                  <strong>Appointment Time:</strong> {{ appointment.appointment_time}}<br>
+                  <strong>Bill:</strong>{% if appointment.appoints %}
+                                                {{ appointment.appoints.amount }}
+                                        {% else %} N/A
+                                        {% endif %}
+                                      <br>
+                  {% if appointment.Prescription %}
+                    <strong>Appointment Paid:</strong> {{ appointment.amount}}<br>
+                  {% endif %}
+                  <strong>Prescription Download:</strong> <a href="{% url 'download' appointment.id %}">{{ appointment.Prescription}}<br></a>
+                </li>
+              {% empty %}
+                <li class="list-group-item">No appointments found.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="chat-box">
+  <h5 class="card-header">Chat with Our Staff</h5>
+  <strong>No of Unseen Messages:</strong>
+              <span class="badge badge-secondary">{{unseen_message_count}}</span>
+  <div class="card-body">
+     {% for staff in staffs %}
+      <h5 class="card-title">Chat with {{ staff.username }}</h5>
+      <p class="card-text">
+        Please keep the chats conclusive and up to the guidelines.
+        <a href="{% url 'room' staff.username user.username %}" class="btn btn-primary">Chat</a>
+      </p>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+  <style>
+    .chat-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #fff;
+      width: 300px;
+      height: 400px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+
+{% endblock %}

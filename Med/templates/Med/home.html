@@ -1,0 +1,33 @@
+{% extends 'Med/base.html' %}
+{% load socialaccount %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <div class="row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <h2 class="card-heading">Welcome to the MedC Site<span class="icon-emo-happy"></span></h2>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Staff</h4>
+                        <p class="card-text">If you already have an account, go ahead and <a href="{% url 'login' %}" class="btn btn-primary btn-success">Log in as Staff</a></p>
+                        <p>Get started by creating a <a href="{% url 'staff_signup' %}" class="btn btn-primary btn-success">Staff account</a></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Patient</h4>
+                        <p class="card-text">Login With Google as Patient</p>
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-primary">Google Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'Med/main.html' %}
+
+{% block SHead %}
+  MedC StaffSite<span class="icon-emo-happy"></span>
+{% endblock %}
+
+{% block Head2 %}
+  <a href="{% url 'profile' %}">Profile Update</a>
+{% endblock %}
+
+{% block content %}
+ <div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <form method="GET" action="{% url 'patient_search' %}" class="mb-4">
+            <div class="input-group">
+              <input type="text" name="search" class="form-control" placeholder="Search patients..." value="{{ search_query }}">
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-dark" style="height: 38px; font-size: 14px;">Search</button>
+              </div>
+            </div>
+          </form>
+
+            <ul class="list-group list-group-flush">
+              {% for patient in patients %}
+                <li class="list-group-item">
+                  <a class="btn btn-secondary btn-sm mt-2 mb-2" href="{% url 'room' user.username patient.user.username %}">Chat With Patient</a><br>
+                    <strong>Name:</strong> {{ patient.name }}
+                    <strong>Gender:</strong> {{ patient.get_gender_display }}
+                    <strong>History of Illness:</strong> {{ patient.history_of_illness }}
+                    <strong>Prescriptions:</strong>
+                <ul>
+                  {% for prescription in patient.prescriptions.all %}
+                    <li>{{ prescription }}</li>
+                  {% empty %}
+                    <li>No prescriptions found.</li>
+                  {% endfor %}
+                </ul>
+                </li>
+              {% empty %}
+                <li class="list-group-item">No Patients found.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

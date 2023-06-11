@@ -1,0 +1,15 @@
+<div class="col-6 text-right">
+              {% if user.is_authenticated %}
+                <p class="pt-3">Logged in as <strong>{{ user.username }}</strong>. <a href="{% url 'logout'%}">Log out</a>.</p>
+                <div class="container">
+                  {% if user.is_patient %}
+                       <a class="navbar-brand mr-4" href="{% url 'patient_pg'%}">Patient Site</a>
+                    {% endif %}
+                </div><div class="col-6 text-right">
+              {% if user.is_authenticated %}
+                <p class="pt-3">Logged in as <strong>{{ user.username }}</strong>. <a href="{% url 'logout'%}">Log out</a>.</p>
+                <div class="container">
+                  {% if user.is_patient %}
+                       <a class="navbar-brand mr-4" href="{% url 'patient_pg'%}">Patient Site</a>
+                    {% endif %}
+                </div>

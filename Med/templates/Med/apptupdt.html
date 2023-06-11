@@ -1,0 +1,64 @@
+{% extends 'Med/main.html' %}
+
+{% block PHead %}
+  MedC PatientSite<span class="icon-emo-happy"></span>
+{% endblock %}
+{% block SHead %}
+  MedC StaffSite<span class="icon-emo-happy"></span>
+{% endblock %}
+{% block Head2 %}
+  <a href="{% url 'profile' %}">Profile Update</a>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Welcome, {{ user.username }}</h1>
+    <h2>Update Appointment</h2>
+
+    <!-- Personal Information Card -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Patient Personal Information</h3>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Name:</strong> {{ info.name }}</li>
+          <li class="list-group-item"><strong>Gender:</strong> {{ info.gender }}</li>
+          <li class="list-group-item"><strong>History of Illness:</strong> {{ info.history_of_illness }}</li>
+          <li class="list-group-item"><strong>Prescriptions:</strong> {{ info.prescriptions }}</li>
+          <li class="list-group-item"><strong>Bill:</strong> {{ bills.amount}}<br></li>
+        </ul>
+      </div>
+    </div>
+
+    {% if user.is_staff %}
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Appointment Update</h3>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+        </div>
+      </div>
+    {% elif user.is_patient %}
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Appointment Update</h3>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <p>You don't have permission to update appointments.</p>
+    {% endif %}
+  </div>
+{% endblock %}

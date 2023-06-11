@@ -1,0 +1,63 @@
+{% extends 'Med/main.html' %}
+{% block SHead %}
+  <a href="{% url 'doc_list' %}" class="btn btn-primary btn-dark">View Doctors</a>
+  <a href="{% url 'patient_list' %}" class="btn btn-primary btn-dark">View Patients</a>
+  <a href="{% url 'patienttablist' %}" class="btn btn-primary btn-dark">Patients List</a>
+  <a href="{% url 'allbill' %}" class="btn btn-primary btn-dark">Accounts</a>
+<a href="{% url 'doc-create' %}" class="btn btn-primary btn-dark" style="position: fixed; top: 70px; right: 20px;">Add Doctor</a>
+  <div class="d-flex justify-content-end">
+    <a href="{% url 'presc-up' %}" class="btn btn-primary btn-dark ml-2">Add Prescription</a>
+  </div>
+  {% endblock %}
+{% block Head2 %}
+ <a href="{% url 'profile' %}" class="btn btn-primary btn-dark">Profile Update</a>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Welcome, {{ user.username }}</h1>
+    <h2>Profile</h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Staff Information</h3>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Name:</strong> {{ user.profile.name }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Appointments</h3>
+          </div>
+          <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+            <ul class="list-group list-group-flush">
+              {% for appointment in appointments %}
+                <li class="list-group-item">
+                  <a href="{% url 'updateAppnt' appointment.id %}"><strong>Patient:</strong> {{ appointment.patient }}</a><br>
+                  <strong>Date:</strong> {{ appointment.appointment_date }}<br>
+                  <strong>Time Wanted:</strong> {{ appointment.get_appointment_time_wanted_display }}<br>
+                  <strong>Description:</strong> {{ appointment.description }}<br>
+                  <strong>Doctor Appointed:</strong> {{ appointment.Doctors_for_appnt }}<br>
+                  <strong>Appointment Time:</strong> {{ appointment.appointment_time}}<br>
+                  <strong>Bill:</strong> {{ bill.amount}}<a href="{% url 'createbill' appointment.id %}"><i class="fas fa-plus">Create</i> </a><br>
+                </li>
+              {% empty %}
+                <li class="list-group-item">No appointments found.</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="card-body">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

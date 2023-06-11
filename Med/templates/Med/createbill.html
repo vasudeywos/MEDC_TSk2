@@ -1,0 +1,26 @@
+<!-- create_bill.html -->
+{% extends 'Med/main.html' %}
+
+{% block SHead %}
+  MedC StaffSite<span class="icon-emo-happy"></span>
+{% endblock %}
+
+{% block Head2 %}
+  <a href="{% url 'profile' %}">Profile Update</a>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Create Bill for Appointment</h1>
+    <h2>Appointment Details:</h2>
+    <p><strong>Appointment ID:</strong> {{ appointment.id }}</p>
+    <p><strong>Patient:</strong> {{ appointment.patient.username }}</p>
+    <p><strong>Appointment Date:</strong> {{ appointment.appointment_date }}</p>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Create Bill</button>
+    </form>
+  </div>
+{% endblock %}

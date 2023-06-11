@@ -1,0 +1,48 @@
+{% extends 'Med/main.html' %}
+{% block SHead %}
+  MedC StaffSite<span class="icon-emo-happy"></span>
+{% endblock %}
+
+{% block Head2 %}
+  <a href="{% url 'profile' %}">Profile Update</a>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Patient Search</h1>
+  </div>
+
+    <div class="card">
+  <div class="card-body">
+    {% if patients %}
+      {% for patient in patients %}
+        <div class="card mb-3">
+          <div class="card-header">
+            <h5 class="card-title">{{ patient.name }}</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Gender:</strong> {{ patient.get_gender_display }}</p>
+            <p><strong>History of Illness:</strong> {{ patient.history_of_illness }}</p>
+            <p><strong>Prescriptions:</strong></p>
+            {% if patient.prescriptions.exists %}
+              <ul>
+                {% for prescription in patient.prescriptions.all %}
+                  <li>{{ prescription }}</li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p>No prescriptions found.</p>
+            {% endif %}
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-secondary btn-sm" href="{% url 'room' user.username patient.user.username %}">Chat With Patient</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No patients found.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
