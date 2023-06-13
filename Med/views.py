@@ -6,7 +6,7 @@ from django.contrib import messages
 from .forms import AppointmentForm,PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
 from .forms import AppointmentUpdateForm,BillForm
-from .models import Appointment,Doctor_Profiles,Prescription,Bill
+from .models import Appointment,Doctor_Profiles,Prescription,Bill,DoctorTable
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
@@ -14,6 +14,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 from fuzzywuzzy import fuzz,process
+
 
 @login_required
 def createappointment(request):
@@ -217,6 +218,11 @@ def PatientSearchView(request):
     }
 
     return render(request, 'Med/patientsearch.html', context)
+
+def DocTablist(request):
+    table = DoctorTable(Doctor_Profiles.objects.all())
+    context={"table": table}
+    return render(request, "Med/doctablist.html", context)
 
 
 

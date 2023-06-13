@@ -16,7 +16,7 @@ class User(AbstractUser):
         created = not self.pk
         super().save(*args, **kwargs)
         if created:
-            Profile.objects.create(user=self)
+            Profile.objects.create(user=self,name=self.username)
 
 class Profile(models.Model):
     GENDER_CHOICES = [('M', 'Male'),('F', 'Female'),('O', 'Other')]

@@ -59,6 +59,7 @@ def set_user_as_patient(sender, request, user, **kwargs):
     if 'google' in user.socialaccount_set.values_list('provider', flat=True):
         if not user.is_staff:
             user.is_patient = True
+            user.email = user.socialaccount_set.get(provider='google').extra_data.get('email')
             user.save()
 
 @login_required

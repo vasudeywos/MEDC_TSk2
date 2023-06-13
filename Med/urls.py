@@ -17,4 +17,5 @@ urlpatterns = [
     path('account/', views.all_Bills, name='allbill'),
     path('patientlist/', views.PatientListView, name='patient_list'),
     path('patientsearch/', views.PatientSearchView, name='patient_search'),
+    path('doctablelist/', views.DocTablist, name='doctablist'),
 ]

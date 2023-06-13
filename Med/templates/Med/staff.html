@@ -1,6 +1,6 @@
 {% extends 'Med/main.html' %}
 {% block SHead %}
-  <a href="{% url 'doc_list' %}" class="btn btn-primary btn-dark">View Doctors</a>
+  <a href="{% url 'doctablist' %}" class="btn btn-primary btn-dark">View Doctors</a>
   <a href="{% url 'patient_list' %}" class="btn btn-primary btn-dark">View Patients</a>
   <a href="{% url 'patienttablist' %}" class="btn btn-primary btn-dark">Patients List</a>
   <a href="{% url 'allbill' %}" class="btn btn-primary btn-dark">Accounts</a>
@@ -46,6 +46,7 @@
                   <strong>Description:</strong> {{ appointment.description }}<br>
                   <strong>Doctor Appointed:</strong> {{ appointment.Doctors_for_appnt }}<br>
                   <strong>Appointment Time:</strong> {{ appointment.appointment_time}}<br>
+                  <strong>Appointment Status:</strong> {{ appointment.get_status_display}}<br>
                   <strong>Bill:</strong> {{ bill.amount}}<a href="{% url 'createbill' appointment.id %}"><i class="fas fa-plus">Create</i> </a><br>
                 </li>
               {% empty %}

@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+import django_tables2 as tables
 
 TIME_CHOICES = [('M', 'Morning'),('E', 'Evening'),('A','Either Morning or Evening')]
 SPECIALIZATION_CHOICES = [('N','None'),('ENT', 'ENT'), ('CD', 'Cardiologist'), ('NE', 'Neurologist'),('ONC', 'Oncologist'),('ORT', 'Orthologist'),('DNT', 'Dentist'),('PHY', 'Physician')]
@@ -49,4 +50,8 @@ class Bill(models.Model):
     appointment = models.OneToOneField(Appointment, related_name='appoints', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Bill for {self.appointment.patient} on {self.appointment_date}"
+        return f"Bill for {self.appointment.patient} on {self.appointment.appointment_date}"
+
+class DoctorTable(tables.Table):
+    class Meta:
+        model = Doctor_Profiles
