@@ -35,8 +35,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         username = text_data_json["username"]
         message = text_data_json["message"]
 
-        member = await self.get_user(username)
-        await self.save_message(member, message)
+        member = await sync_to_async(User.objects.get)(username=username)
+        await sync_to_async(Message.objects.create)(
+            room_name=self.room_name, author=member, content=message
+        )
         await self.channel_layer.group_send(self.room_group_name, {
             "type": "chat_message",
             "message": message,
@@ -57,15 +59,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         if sender_username != recipient_username:
             await self.mark_messages_as_seen(sender_username)
-
-    @database_sync_to_async
-    def get_user(self, username):
-        return User.objects.get(username=username)
-
-    @database_sync_to_async
-    def save_message(self, member, message):
-        Message.objects.create(room_name=self.room_name, author=member, content=message)
-
 
     @database_sync_to_async
     def mark_messages_as_seen(self, username):
