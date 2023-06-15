@@ -24,12 +24,12 @@ class AppointmentUpdateForm(forms.ModelForm):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
-        # Check if user is a staff member
+
         if user and user.is_staff:
             self.fields.pop('description')
             self.fields.pop('Pay_amount')
 
-        else:  # User is a patient
+        else:
             self.fields.pop('appointment_time')
             self.fields.pop('status')
             self.fields.pop('Doctors_for_appnt')
