@@ -199,7 +199,7 @@ def PatientListView(request):
     return render(request, 'Med/patientlist.html', context)
 
 def PatientSearchView(request):
-    search_query = request.GET.get('search', '')
+    search_query = request.GET.get('search')
 
     patients = Profile.objects.filter(user__is_patient=True)
 
