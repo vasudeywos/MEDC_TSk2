@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    re_path(r"^chat/(?P<staff_username>[\w-]+)/(?P<patient_username>[\w-]+)/$", views.room, name="room"),
+    path('chat/<staff_username>/<patient_username>/', views.room, name='room'),
 ]
