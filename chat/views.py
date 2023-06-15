@@ -23,7 +23,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
 
-        # Retrieve the recipient user and mark their messages as seen
         recipient_username = self.scope["user"].username
         await self.mark_messages_as_seen(recipient_username)
 
